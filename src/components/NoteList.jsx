@@ -2,26 +2,46 @@ import newNoteIcon from "../images/new-note.svg";
 import searchIcon from "../images/search-icon.svg";
 import clearIcon from "../images/clear-icon.svg";
 import createIcon from "../images/create-icon.svg";
-import pinIcon from "../images/pin-icon.svg";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import DisplayNoteElements from "./DisplayNoteElements";
 
-function NoteList() {
-  const [noteList, setNoteList] = useState([]);
+function NoteList({ noteList, createNote }) {
+  const [searchNote, setSearchNote] = useState("");
 
-  function createNote() {
-    const newNote = {
-      id: uuidv4(),
-      title: "New Note...",
-      data: "",
-    };
+  const handleSearch = (e) => {
+    setSearchNote(e.target.value);
+  };
 
-    setNoteList((oldNotes) => {
-      return [...oldNotes, newNote];
-    });
-  }
+  const handleClear = () => {
+    setSearchNote("");
+  };
 
-  const createElement = (
+  // // Run useEffect only Component Update based on "searchNote" state
+  // const isInitialMount = useRef(true);
+
+  // useEffect(() => {
+  //   const filterSearch = () => {
+  //     console.log("Input update from new Effect");
+  //     const searchElement = searchNote.toLowerCase();
+
+  //     noteList.filter((note) => {
+  //       const noteListElement = note.title.toLowerCase();
+  //       if (noteListElement.includes(searchElement)) {
+  //         console.log("found");
+  //       }
+  //     });
+  //   };
+
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false;
+  //   } else {
+  //     filterSearch();
+  //   }
+  //   // return filterSearch;
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [searchNote]);
+
+  const createElementComponent = (
     <div className="create-note">
       <img src={createIcon} alt="Create" className="create-icon-image" />
       <button className="create-note-button" onClick={createNote}>
@@ -29,20 +49,6 @@ function NoteList() {
       </button>
     </div>
   );
-
-  const displayNoteElements = (
-    <div className="note-list">
-      {noteList.map((note) => {
-        return (
-          <div className="note-element" key={note.id}>
-            <p>{note.title}</p>
-            <img src={pinIcon} alt="Pin" className="pin" />
-          </div>
-        );
-      })}
-    </div>
-  );
-  console.log(noteList);
 
   return (
     <section className="column-container">
@@ -58,11 +64,26 @@ function NoteList() {
       </header>
       <div className="input">
         <img src={searchIcon} alt="Search Icon" />
-        <input type="text" placeholder="Search all notes" />
-        <img src={clearIcon} alt="Clear Icon" className="clear-icon" />
+        <input
+          type="text"
+          placeholder="Search all notes"
+          value={searchNote}
+          onChange={handleSearch}
+        />
+        <img
+          src={clearIcon}
+          onClick={handleClear}
+          alt="Clear Icon"
+          className={
+            searchNote.length > 0 ? "clear-icon show-element" : "clear-icon"
+          }
+        />
       </div>
-      {noteList.length === 0 && createElement}
-      {noteList.length > 0 && displayNoteElements}
+      {noteList.length > 0 ? (
+        <DisplayNoteElements noteList={noteList} />
+      ) : (
+        createElementComponent
+      )}
     </section>
   );
 }
