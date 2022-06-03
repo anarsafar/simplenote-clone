@@ -1,7 +1,7 @@
 import pinIcon from "../images/pin-icon.svg";
 
-function DisplayNoteElements({ noteList }) {
-  const handleNote = (ID) => {
+function DisplayAllNotes({ noteList }) {
+  const findNote = (ID) => {
     const note = noteList.map((note) => {
       return note.id === ID ? note : null;
     });
@@ -16,7 +16,7 @@ function DisplayNoteElements({ noteList }) {
           <div
             className="note-element"
             key={note.id}
-            onClick={() => handleNote(note.id)}
+            onClick={() => findNote(note.id)}
           >
             <div className="note-data">
               <p className="note-title">{note.title}</p>
@@ -31,4 +31,4 @@ function DisplayNoteElements({ noteList }) {
   return displayNoteElements;
 }
 
-export default DisplayNoteElements;
+export default DisplayAllNotes;

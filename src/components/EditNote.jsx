@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 function EditNote() {
   const noteRef = useRef();
@@ -8,15 +8,8 @@ function EditNote() {
     //make sure clean up
   });
 
-  const handleChange = (e) => {};
-
   return (
-    <textarea
-      className="note-body"
-      spellCheck="false"
-      ref={noteRef}
-      onChange={handleChange}
-    ></textarea>
+    <textarea className="note-body" spellCheck="false" ref={noteRef}></textarea>
   );
 }
 

@@ -3,9 +3,9 @@ import searchIcon from "../images/search-icon.svg";
 import clearIcon from "../images/clear-icon.svg";
 import createIcon from "../images/create-icon.svg";
 import { useState } from "react";
-import DisplayNoteElements from "./DisplayNoteElements";
+import DisplayAllNotes from "./DisplayAllNotes";
 
-function NoteList({ noteList, createNote }) {
+function AllNotes({ noteList, addNote }) {
   const [searchNote, setSearchNote] = useState("");
 
   const handleSearch = (e) => {
@@ -16,35 +16,10 @@ function NoteList({ noteList, createNote }) {
     setSearchNote("");
   };
 
-  // // Run useEffect only Component Update based on "searchNote" state
-  // const isInitialMount = useRef(true);
-
-  // useEffect(() => {
-  //   const filterSearch = () => {
-  //     console.log("Input update from new Effect");
-  //     const searchElement = searchNote.toLowerCase();
-
-  //     noteList.filter((note) => {
-  //       const noteListElement = note.title.toLowerCase();
-  //       if (noteListElement.includes(searchElement)) {
-  //         console.log("found");
-  //       }
-  //     });
-  //   };
-
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false;
-  //   } else {
-  //     filterSearch();
-  //   }
-  //   // return filterSearch;
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [searchNote]);
-
-  const createElementComponent = (
+  const createFirstElement = (
     <div className="create-note">
       <img src={createIcon} alt="Create" className="create-icon-image" />
-      <button className="create-note-button" onClick={createNote}>
+      <button className="create-note-button" onClick={addNote}>
         Create your first note
       </button>
     </div>
@@ -59,7 +34,7 @@ function NoteList({ noteList, createNote }) {
           src={newNoteIcon}
           alt="Create new note"
           className="create-note-btn"
-          onClick={createNote}
+          onClick={addNote}
         />
       </header>
       <div className="input">
@@ -80,12 +55,12 @@ function NoteList({ noteList, createNote }) {
         />
       </div>
       {noteList.length > 0 ? (
-        <DisplayNoteElements noteList={noteList} />
+        <DisplayAllNotes noteList={noteList} />
       ) : (
-        createElementComponent
+        createFirstElement
       )}
     </section>
   );
 }
 
-export default NoteList;
+export default AllNotes;

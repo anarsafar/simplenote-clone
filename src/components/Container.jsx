@@ -1,38 +1,37 @@
 import Split from "react-split";
-import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import Note from "./Note";
-import NoteList from "./NoteList";
+import AllNotes from "./AllNotes";
 import "../css/style.css";
 
 function Container() {
   const [noteList, setNoteList] = useState([]);
-  const [displayEditNoteData, setEditNoteData] = useState();
 
-  function createNote() {
-    const newNote = {
-      id: uuidv4(),
-      title: "New Note...",
-      subtitle: "",
-      data: "Something",
-    };
-
+  function addNote() {
     setNoteList((oldNotes) => {
-      return [...oldNotes, newNote];
+      return [
+        ...oldNotes,
+        {
+          id: uuidv4(),
+          title: "New Note...",
+          subtitle: "",
+          data: "",
+        },
+      ];
     });
   }
 
-  const contextData = { displayEditNoteData, setEditNoteData };
   return (
     <>
       <Split
         direction="horizontal"
         sizes={[30, 70]}
-        minSize={280}
+        minSize={260}
         cursor="col-resize"
         className="split"
       >
-        <NoteList noteList={noteList} createNote={createNote} />
+        <AllNotes noteList={noteList} addNote={addNote} />
         <Note noteList={noteList} />
       </Split>
     </>
