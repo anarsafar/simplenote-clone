@@ -183,6 +183,14 @@ input::placeholder {
   visibility: visible;
 }
 
+.active-note {
+  background: var(--highlight-color);
+}
+
+.note-element.active-note:hover {
+  background: var(--highlight-color);
+}
+
 /* ====================== Note Component styles ==================== */
 .note-header {
   display: flex;

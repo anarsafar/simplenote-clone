@@ -6,11 +6,11 @@ import EditNote from "./EditNote";
 import Markdown from "./Markdown";
 import { useState } from "react";
 
-function Note({ noteList }) {
-  const [isVisible, setIsVisible] = useState(false);
+function Note({ noteList, currentNote, editCurrentNote }) {
+  const [isMarkDownVisible, setIsMarkDownVisible] = useState(false);
 
   const handleMarkDownVisibility = () => {
-    setIsVisible((prevIsVisible) => !prevIsVisible);
+    setIsMarkDownVisible((prevIsVisible) => !prevIsVisible);
   };
 
   return (
@@ -22,7 +22,7 @@ function Note({ noteList }) {
           className={noteList.length !== 0 ? "show-element" : ""}
         />
         <img
-          src={isVisible ? closeMarkDown : openMarkdown}
+          src={isMarkDownVisible ? closeMarkDown : openMarkdown}
           alt="Display Markdown"
           onClick={handleMarkDownVisibility}
           className={noteList.length !== 0 ? "show-element" : ""}
@@ -33,7 +33,11 @@ function Note({ noteList }) {
           className={noteList.length !== 0 ? "show-element" : ""}
         />
       </header>
-      {isVisible ? <Markdown /> : noteList.length !== 0 ? <EditNote /> : null}
+      {isMarkDownVisible ? (
+        <Markdown />
+      ) : noteList.length !== 0 ? (
+        <EditNote currentNote={currentNote} editCurrentNote={editCurrentNote} />
+      ) : null}
     </section>
   );
 }

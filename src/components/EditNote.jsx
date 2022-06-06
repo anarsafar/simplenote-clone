@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-function EditNote() {
+function EditNote({ currentNote, editCurrentNote }) {
   const noteRef = useRef();
 
   useEffect(() => {
@@ -8,8 +8,18 @@ function EditNote() {
     //make sure clean up
   });
 
+  useEffect(() => {
+    console.log("CurrentNote from EditNote", currentNote);
+  }, [currentNote]);
+
   return (
-    <textarea className="note-body" spellCheck="false" ref={noteRef}></textarea>
+    <textarea
+      className="note-body"
+      spellCheck="false"
+      ref={noteRef}
+      value={currentNote.data === undefined ? "" : currentNote.data}
+      onChange={editCurrentNote}
+    ></textarea>
   );
 }
 

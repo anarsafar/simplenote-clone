@@ -5,7 +5,7 @@ import createIcon from "../images/create-icon.svg";
 import { useState } from "react";
 import DisplayAllNotes from "./DisplayAllNotes";
 
-function AllNotes({ noteList, addNote }) {
+function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
   const [searchNote, setSearchNote] = useState("");
 
   const handleSearch = (e) => {
@@ -19,7 +19,7 @@ function AllNotes({ noteList, addNote }) {
   const createFirstElement = (
     <div className="create-note">
       <img src={createIcon} alt="Create" className="create-icon-image" />
-      <button className="create-note-button" onClick={addNote}>
+      <button className="create-note-button" onClick={addNewNote}>
         Create your first note
       </button>
     </div>
@@ -34,7 +34,7 @@ function AllNotes({ noteList, addNote }) {
           src={newNoteIcon}
           alt="Create new note"
           className="create-note-btn"
-          onClick={addNote}
+          onClick={addNewNote}
         />
       </header>
       <div className="input">
@@ -55,7 +55,11 @@ function AllNotes({ noteList, addNote }) {
         />
       </div>
       {noteList.length > 0 ? (
-        <DisplayAllNotes noteList={noteList} />
+        <DisplayAllNotes
+          noteList={noteList}
+          getCurrentNote={getCurrentNote}
+          currentNote={currentNote}
+        />
       ) : (
         createFirstElement
       )}
