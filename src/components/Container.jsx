@@ -27,8 +27,15 @@ function Container() {
 
   const editCurrentNote = (e) => {
     setShouldUpdateNoteList(true);
+    const allLinesFromInput = e.target.value.split("\n");
+    const title = allLinesFromInput[0];
+    const subtitle = allLinesFromInput[1];
+
+    console.log(allLinesFromInput);
     setCurrentNote((prevCurrentNote) => ({
       ...prevCurrentNote,
+      title: title === undefined || title === "" ? "New Note" : title,
+      subtitle: subtitle === undefined ? "" : subtitle,
       data: e.target.value,
     }));
   };
@@ -36,7 +43,7 @@ function Container() {
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
     setShouldUpdateNoteList(false);
-    // console.log("NoteList from Container", noteList);
+    console.log("NoteList from Container", noteList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [noteList]);
 
