@@ -5,7 +5,13 @@ import createIcon from "../images/create-icon.svg";
 import { useEffect, useState, useRef } from "react";
 import DisplayAllNotes from "./DisplayAllNotes";
 
-function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
+function AllNotes({
+  noteList,
+  addNewNote,
+  getCurrentNote,
+  currentNote,
+  handlePin,
+}) {
   const isInitialMount = useRef(true);
   const [searchNote, setSearchNote] = useState("");
   const [filteredNoteList, setFilteredNoteList] = useState([]);
@@ -22,8 +28,9 @@ function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else {
-      const newList = noteList.filter((note) => note.data.includes(searchNote));
-      console.log(newList);
+      const newList = noteList.filter((note) =>
+        note.data.toLowerCase().includes(searchNote.toLowerCase())
+      );
       setFilteredNoteList(newList);
     }
   }, [searchNote, noteList]);
@@ -71,6 +78,7 @@ function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
           noteList={filteredNoteList}
           getCurrentNote={getCurrentNote}
           currentNote={currentNote}
+          handlePin={handlePin}
         />
       ) : (
         createFirstElement

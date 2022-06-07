@@ -1,6 +1,6 @@
 import pinIcon from "../images/pin-icon.svg";
 
-function DisplayAllNotes({ noteList, getCurrentNote, currentNote }) {
+function DisplayAllNotes({ noteList, getCurrentNote, currentNote, handlePin }) {
   const displayNoteElements = (
     <div className="note-list">
       {noteList.map((note) => {
@@ -18,7 +18,12 @@ function DisplayAllNotes({ noteList, getCurrentNote, currentNote }) {
               <p className="note-title">{note.title}</p>
               <p className="note-subtitle">{note.subtitle}</p>
             </div>
-            <img src={pinIcon} alt="Pin" className="pin" />
+            <img
+              src={pinIcon}
+              alt="Pin"
+              className={note.isPinned ? "pin pin-active" : "pin"}
+              onClick={(e) => handlePin(e, note.id)}
+            />
           </div>
         );
       })}

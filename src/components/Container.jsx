@@ -16,6 +16,7 @@ function Container() {
       title: "New Note",
       subtitle: "",
       data: "",
+      isPinned: false,
     };
     setNoteList((prevNoteList) => [newNote, ...prevNoteList]);
     setShouldUpdateNoteList(true);
@@ -39,6 +40,33 @@ function Container() {
     }));
   };
 
+  const handlePin = (e, ID) => {
+    e.stopPropagation();
+    const newList = noteList.map((note) => {
+      return note.id === ID
+        ? {
+            ...note,
+            isPinned: !note.isPinned,
+          }
+        : note;
+    });
+    const [currentPinned] = newList.filter((note) => note.id === ID);
+    const noteListWithoutCurrentPinned = newList.filter(
+      (note) => note.id !== ID
+    );
+    setNoteList([currentPinned, ...noteListWithoutCurrentPinned]);
+  };
+
+  useEffect(() => {
+    if (shouldUpdateNoteList) {
+      const pinnedNotes = noteList.filter((note) => note.isPinned);
+      const withoutPinned = noteList.filter((note) => !note.isPinned);
+      setNoteList([...pinnedNotes, ...withoutPinned]);
+      setShouldUpdateNoteList(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldUpdateNoteList]);
+
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
     setShouldUpdateNoteList(false);
@@ -50,8 +78,13 @@ function Container() {
       const newNotes = noteList.filter((note) =>
         note.id !== currentNote.id ? note : null
       );
-      newNotes.unshift(currentNote);
-      setNoteList(newNotes);
+
+      const pinnedNotes = newNotes.filter((note) => note.isPinned);
+      const withoutPinned = newNotes.filter((note) => !note.isPinned);
+      withoutPinned.unshift(currentNote);
+
+      setNoteList([...pinnedNotes, ...withoutPinned]);
+
       setShouldUpdateNoteList(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,6 +104,7 @@ function Container() {
           addNewNote={addNewNote}
           getCurrentNote={getCurrentNote}
           currentNote={currentNote}
+          handlePin={handlePin}
         />
         <Note
           noteList={noteList}
