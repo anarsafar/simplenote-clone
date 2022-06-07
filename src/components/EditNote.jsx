@@ -6,10 +6,10 @@ function EditNote({ currentNote, editCurrentNote }) {
   useEffect(() => {
     noteRef.current.focus();
     //make sure clean up
-  });
+  }, [currentNote]);
 
   useEffect(() => {
-    console.log("CurrentNote from EditNote", currentNote);
+    // console.log("CurrentNote from EditNote", currentNote);
   }, [currentNote]);
 
   return (

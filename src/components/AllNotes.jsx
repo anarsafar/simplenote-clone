@@ -2,11 +2,13 @@ import newNoteIcon from "../images/new-note.svg";
 import searchIcon from "../images/search-icon.svg";
 import clearIcon from "../images/clear-icon.svg";
 import createIcon from "../images/create-icon.svg";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DisplayAllNotes from "./DisplayAllNotes";
 
 function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
+  const isInitialMount = useRef(true);
   const [searchNote, setSearchNote] = useState("");
+  const [filteredNoteList, setFilteredNoteList] = useState([]);
 
   const handleSearch = (e) => {
     setSearchNote(e.target.value);
@@ -15,6 +17,16 @@ function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
   const handleClear = () => {
     setSearchNote("");
   };
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      const newList = noteList.filter((note) => note.data.includes(searchNote));
+      console.log(newList);
+      setFilteredNoteList(newList);
+    }
+  }, [searchNote, noteList]);
 
   const createFirstElement = (
     <div className="create-note">
@@ -56,7 +68,7 @@ function AllNotes({ noteList, addNewNote, getCurrentNote, currentNote }) {
       </div>
       {noteList.length > 0 ? (
         <DisplayAllNotes
-          noteList={noteList}
+          noteList={filteredNoteList}
           getCurrentNote={getCurrentNote}
           currentNote={currentNote}
         />
