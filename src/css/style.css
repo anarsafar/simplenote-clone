@@ -103,7 +103,7 @@ header {
   width: 16px;
 }
 
-input {
+input[type="text"] {
   all: unset;
   margin-right: auto;
   padding: 10px;
@@ -177,7 +177,6 @@ input::placeholder {
 .pin-active {
   user-select: all;
   visibility: visible;
-  color: red; /* absurd */
 }
 
 .note-element:hover {
@@ -200,6 +199,7 @@ input::placeholder {
 /* ====================== Note Component styles ==================== */
 .note-header {
   display: flex;
+  position: relative;
   justify-content: space-between;
   padding: 14px;
 }
@@ -245,4 +245,31 @@ input::placeholder {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--primary-color);
+}
+
+/* ====================== More Tools Component Styles ================= */
+.more-tools-container {
+  position: absolute;
+  right: 1rem;
+  bottom: -8.2rem;
+  width: 200px;
+  border-radius: 6px;
+  padding-block: 13px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.note-action {
+  display: flex;
+  padding: 5px 1rem;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.note-action:hover {
+  background-color: var(--secondary-highlight-color);
+}
+
+.note-action button {
+  all: unset;
+  color: var(--tertiary-highlight-color);
 }
