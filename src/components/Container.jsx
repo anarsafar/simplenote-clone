@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Split from "react-split";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
@@ -47,12 +48,21 @@ function Container() {
           }
         : note;
     });
-    const [currentPinned] = newList.filter((note) => note.id === ID);
-    const noteListWithoutCurrentPinned = newList.filter(
-      (note) => note.id !== ID
+
+    const [editedNote] = newList.filter((note) => note.id === ID);
+    const noteListWithoutPin = newList.filter(
+      (note) => !note.isPinned && note.id !== ID
     );
 
-    setNoteList([currentPinned, ...noteListWithoutCurrentPinned]);
+    const pinnedNotes = newList.filter(
+      (note) => note.isPinned && note.id !== ID
+    );
+
+    if (editedNote.isPinned) {
+      setNoteList([editedNote, ...pinnedNotes, ...noteListWithoutPin]);
+    } else {
+      setNoteList([...pinnedNotes, editedNote, ...noteListWithoutPin]);
+    }
 
     setCurrentNote((prevCurrent) => ({
       ...prevCurrent,
@@ -82,17 +92,17 @@ function Container() {
       setNoteList([...pinnedNotes, ...withoutPinned]);
       setShouldUpdateNoteList(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldUpdateNoteList]);
 
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
-
+    console.log("NoteList from Container", noteList);
     setShouldUpdateNoteList(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [noteList]);
 
   useEffect(() => {
+    console.log("CurrentNote from Container", currentNote);
+
     if (shouldUpdateNoteList) {
       const newNotes = noteList.filter((note) =>
         note.id !== currentNote.id ? note : null
@@ -106,7 +116,6 @@ function Container() {
 
       setShouldUpdateNoteList(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentNote]);
 
   return (

@@ -2,7 +2,9 @@ import { forwardRef, useEffect } from "react";
 
 const MoreTools = forwardRef(
   ({ currentNote, pinNote, handleShouldUseMarkdown }, ref) => {
-    useEffect(() => console.log(currentNote), [currentNote]);
+    useEffect(() => {
+      console.log("CurrentNote from MoreTools", currentNote);
+    }, [currentNote]);
 
     return (
       <div className="more-tools-container" ref={ref}>
