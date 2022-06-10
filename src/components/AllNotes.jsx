@@ -10,7 +10,7 @@ function AllNotes({
   addNewNote,
   getCurrentNote,
   currentNote,
-  handlePin,
+  pinNote,
 }) {
   const isInitialMount = useRef(true);
   const [searchNote, setSearchNote] = useState("");
@@ -31,6 +31,7 @@ function AllNotes({
       const newList = noteList.filter((note) =>
         note.data.toLowerCase().includes(searchNote.toLowerCase())
       );
+
       setFilteredNoteList(newList);
     }
   }, [searchNote, noteList]);
@@ -78,7 +79,7 @@ function AllNotes({
           noteList={filteredNoteList}
           getCurrentNote={getCurrentNote}
           currentNote={currentNote}
-          handlePin={handlePin}
+          pinNote={pinNote}
         />
       ) : (
         createFirstElement

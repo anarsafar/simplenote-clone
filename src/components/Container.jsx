@@ -17,8 +17,18 @@ function Container() {
       subtitle: "",
       data: "",
       isPinned: false,
+      shouldUseMarkdown: false,
     };
+
     setNoteList((prevNoteList) => [newNote, ...prevNoteList]);
+    setShouldUpdateNoteList(true);
+  };
+
+  const handleShouldUseMarkdown = () => {
+    setCurrentNote((prevCurrent) => ({
+      ...prevCurrent,
+      shouldUseMarkdown: !prevCurrent.shouldUseMarkdown,
+    }));
     setShouldUpdateNoteList(true);
   };
 
@@ -26,22 +36,9 @@ function Container() {
     setCurrentNote(noteList.find((note) => note.id === id && note));
   };
 
-  const editCurrentNote = (e) => {
-    setShouldUpdateNoteList(true);
-    const allLinesFromInput = e.target.value.split("\n");
-    const title = allLinesFromInput[0];
-    const subtitle = allLinesFromInput[1];
-
-    setCurrentNote((prevCurrentNote) => ({
-      ...prevCurrentNote,
-      title: title === undefined || title === "" ? "New Note" : title,
-      subtitle: subtitle === undefined ? "" : subtitle,
-      data: e.target.value,
-    }));
-  };
-
-  const handlePin = (e, ID) => {
+  const pinNote = (e, ID) => {
     e.stopPropagation();
+
     const newList = noteList.map((note) => {
       return note.id === ID
         ? {
@@ -54,7 +51,28 @@ function Container() {
     const noteListWithoutCurrentPinned = newList.filter(
       (note) => note.id !== ID
     );
+
     setNoteList([currentPinned, ...noteListWithoutCurrentPinned]);
+
+    setCurrentNote((prevCurrent) => ({
+      ...prevCurrent,
+      isPinned: !prevCurrent.isPinned,
+    }));
+  };
+
+  const editCurrentNote = (e) => {
+    setShouldUpdateNoteList(true);
+
+    const allLinesFromInput = e.target.value.split("\n");
+    const title = allLinesFromInput[0];
+    const subtitle = allLinesFromInput[1];
+
+    setCurrentNote((prevCurrentNote) => ({
+      ...prevCurrentNote,
+      title: title === undefined || title === "" ? "New Note" : title,
+      subtitle: subtitle === undefined ? "" : subtitle,
+      data: e.target.value,
+    }));
   };
 
   useEffect(() => {
@@ -69,6 +87,7 @@ function Container() {
 
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
+
     setShouldUpdateNoteList(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [noteList]);
@@ -104,12 +123,14 @@ function Container() {
           addNewNote={addNewNote}
           getCurrentNote={getCurrentNote}
           currentNote={currentNote}
-          handlePin={handlePin}
+          pinNote={pinNote}
         />
         <Note
           noteList={noteList}
           currentNote={currentNote}
           editCurrentNote={editCurrentNote}
+          pinNote={pinNote}
+          handleShouldUseMarkdown={handleShouldUseMarkdown}
         />
       </Split>
     </>

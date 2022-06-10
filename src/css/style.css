@@ -211,7 +211,7 @@ input::placeholder {
   user-select: none;
 }
 
-.note-header img:nth-child(2) {
+.markdown {
   margin-left: auto;
   margin-right: 1rem;
 }
@@ -263,6 +263,7 @@ input::placeholder {
   padding: 5px 1rem;
   justify-content: space-between;
   cursor: pointer;
+  user-select: none;
 }
 
 .note-action:hover {

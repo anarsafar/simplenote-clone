@@ -7,9 +7,16 @@ import Markdown from "./Markdown";
 import { useState, useRef, useEffect } from "react";
 import MoreTools from "./MoreTools";
 
-function Note({ noteList, currentNote, editCurrentNote }) {
-  const [isMarkDownVisible, setIsMarkDownVisible] = useState(false);
+function Note({
+  noteList,
+  currentNote,
+  editCurrentNote,
+  pinNote,
+  handleShouldUseMarkdown,
+}) {
   const [isMoreToolsVisible, setIsMoreToolsVisible] = useState(false);
+  const [isMarkDownVisible, setIsMarkDownVisible] = useState(false);
+
   const moreToolsRef = useRef();
 
   const handleMarkDownVisibility = () => {
@@ -47,19 +54,30 @@ function Note({ noteList, currentNote, editCurrentNote }) {
           alt="Toggle List"
           className={noteList.length !== 0 ? "show-element" : ""}
         />
-        <img
-          src={isMarkDownVisible ? closeMarkDown : openMarkdown}
-          alt="Display Markdown"
-          onClick={handleMarkDownVisibility}
-          className={noteList.length !== 0 ? "show-element" : ""}
-        />
+        {currentNote.shouldUseMarkdown && (
+          <img
+            src={isMarkDownVisible ? closeMarkDown : openMarkdown}
+            alt="Display Markdown"
+            onClick={handleMarkDownVisibility}
+            className={
+              noteList.length !== 0 ? "show-element markdown" : "markdown"
+            }
+          />
+        )}
         <img
           src={moreToolsIcon}
           alt="More Tools"
           onClick={handleMoreToolsVisibility}
           className={noteList.length !== 0 ? "show-element" : ""}
         />
-        {isMoreToolsVisible && <MoreTools ref={moreToolsRef} />}
+        {isMoreToolsVisible && (
+          <MoreTools
+            ref={moreToolsRef}
+            currentNote={currentNote}
+            pinNote={pinNote}
+            handleShouldUseMarkdown={handleShouldUseMarkdown}
+          />
+        )}
       </header>
       {isMarkDownVisible ? (
         <Markdown />
