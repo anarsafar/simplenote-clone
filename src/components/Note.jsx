@@ -13,6 +13,7 @@ function Note({
   editCurrentNote,
   pinNote,
   handleShouldUseMarkdown,
+  handleDelete,
 }) {
   const [isMoreToolsVisible, setIsMoreToolsVisible] = useState(false);
   const [isMarkDownVisible, setIsMarkDownVisible] = useState(false);
@@ -54,7 +55,7 @@ function Note({
           alt="Toggle List"
           className={noteList.length !== 0 ? "show-element" : ""}
         />
-        {currentNote.shouldUseMarkdown && (
+        {currentNote && currentNote.shouldUseMarkdown && (
           <img
             src={isMarkDownVisible ? closeMarkDown : openMarkdown}
             alt="Display Markdown"
@@ -77,6 +78,7 @@ function Note({
             noteList={noteList}
             pinNote={pinNote}
             handleShouldUseMarkdown={handleShouldUseMarkdown}
+            handleDelete={handleDelete}
           />
         )}
       </header>

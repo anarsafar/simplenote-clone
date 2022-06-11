@@ -273,6 +273,7 @@ input::placeholder {
 .note-action button {
   all: unset;
   color: var(--tertiary-highlight-color);
+  width: 100%;
 }
 
 /* ========================== MARKDOWN COMPONENT ================== */

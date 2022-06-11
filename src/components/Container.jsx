@@ -80,6 +80,26 @@ function Container() {
     }));
   };
 
+  const handleDelete = (id) => {
+    const newNoteList = noteList.filter((note) => note.id !== id);
+    const indexCurrent = noteList.indexOf(currentNote);
+
+    console.log(newNoteList);
+
+    if (newNoteList.length === 0) {
+      setNoteList([]);
+      setCurrentNote({});
+    } else {
+      setNoteList(newNoteList);
+    }
+
+    if (indexCurrent === noteList.length - 1) {
+      setCurrentNote(noteList[indexCurrent - 1]);
+    } else {
+      setCurrentNote(noteList[indexCurrent + 1]);
+    }
+  };
+
   useEffect(() => {
     if (shouldUpdateNoteList) {
       const pinnedNotes = noteList.filter((note) => note.isPinned);
@@ -133,6 +153,7 @@ function Container() {
           editCurrentNote={editCurrentNote}
           pinNote={pinNote}
           handleShouldUseMarkdown={handleShouldUseMarkdown}
+          handleDelete={handleDelete}
         />
       </Split>
     </>
