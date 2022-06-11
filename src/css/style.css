@@ -274,3 +274,14 @@ input::placeholder {
   all: unset;
   color: var(--tertiary-highlight-color);
 }
+
+/* ========================== MARKDOWN COMPONENT ================== */
+
+.markdown-container {
+  height: calc(100% - 53px);
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--primary-color);
+}

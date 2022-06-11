@@ -74,13 +74,14 @@ function Note({
           <MoreTools
             ref={moreToolsRef}
             currentNote={currentNote}
+            noteList={noteList}
             pinNote={pinNote}
             handleShouldUseMarkdown={handleShouldUseMarkdown}
           />
         )}
       </header>
       {isMarkDownVisible ? (
-        <Markdown />
+        <Markdown currentNote={currentNote} />
       ) : noteList.length !== 0 ? (
         <EditNote currentNote={currentNote} editCurrentNote={editCurrentNote} />
       ) : null}

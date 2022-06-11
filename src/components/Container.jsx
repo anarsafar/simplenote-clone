@@ -64,10 +64,10 @@ function Container() {
       setNoteList([...pinnedNotes, editedNote, ...noteListWithoutPin]);
     }
 
-    setCurrentNote((prevCurrent) => ({
-      ...prevCurrent,
-      isPinned: !prevCurrent.isPinned,
-    }));
+    // setCurrentNote((prevCurrent) => ({
+    //   ...prevCurrent,
+    //   isPinned: !prevCurrent.isPinned,
+    // }));
   };
 
   const editCurrentNote = (e) => {
@@ -96,12 +96,12 @@ function Container() {
 
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
-    console.log("NoteList from Container", noteList);
+    // console.log("NoteList from Container", noteList);
     setShouldUpdateNoteList(false);
   }, [noteList]);
 
   useEffect(() => {
-    console.log("CurrentNote from Container", currentNote);
+    // console.log("CurrentNote from Container", currentNote);
 
     if (shouldUpdateNoteList) {
       const newNotes = noteList.filter((note) =>
