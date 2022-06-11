@@ -80,7 +80,7 @@ function Note({
           />
         )}
       </header>
-      {isMarkDownVisible ? (
+      {isMarkDownVisible && currentNote.shouldUseMarkdown ? (
         <Markdown currentNote={currentNote} />
       ) : noteList.length !== 0 ? (
         <EditNote currentNote={currentNote} editCurrentNote={editCurrentNote} />
