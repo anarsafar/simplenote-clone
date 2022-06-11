@@ -14,7 +14,7 @@ function AllNotes({
 }) {
   const isInitialMount = useRef(true);
   const [searchNote, setSearchNote] = useState("");
-  const [filteredNoteList, setFilteredNoteList] = useState([]);
+  const [filteredNoteList, setFilteredNoteList] = useState([...noteList]);
 
   const handleSearch = (e) => {
     setSearchNote(e.target.value);
@@ -44,7 +44,7 @@ function AllNotes({
       </button>
     </div>
   );
-
+  console.log("All Notes", noteList);
   return (
     <section className="column-container">
       <header className="all-notes__header">

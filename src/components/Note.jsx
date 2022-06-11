@@ -47,6 +47,8 @@ function Note({
     };
   }, [isMoreToolsVisible]);
 
+  console.log("Note", noteList);
+
   return (
     <section className="column-container">
       <header className="note-header">

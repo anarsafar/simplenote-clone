@@ -7,8 +7,16 @@ import AllNotes from "./AllNotes";
 import "../css/style.css";
 
 function Container() {
-  const [noteList, setNoteList] = useState([]);
-  const [currentNote, setCurrentNote] = useState({});
+  const [noteList, setNoteList] = useState(() => {
+    const savedData = localStorage.getItem("noteList");
+    const initialNoteList = JSON.parse(savedData);
+
+    return initialNoteList || [];
+  });
+  const [currentNote, setCurrentNote] = useState(() => {
+    const initialValue = noteList[0];
+    return initialValue || {};
+  });
   const [shouldUpdateNoteList, setShouldUpdateNoteList] = useState(false);
 
   const addNewNote = () => {
@@ -112,6 +120,8 @@ function Container() {
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
 
+    localStorage.setItem("noteList", JSON.stringify(noteList));
+    console.log("Container", noteList);
     setShouldUpdateNoteList(false);
   }, [noteList]);
 

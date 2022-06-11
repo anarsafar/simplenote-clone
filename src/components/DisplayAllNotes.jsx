@@ -1,6 +1,7 @@
 import pinIcon from "../images/pin-icon.svg";
 
 function DisplayAllNotes({ noteList, getCurrentNote, currentNote, pinNote }) {
+  console.log("DisplayAllNotes", noteList);
   const displayNoteElements = (
     <div className="note-list">
       {noteList.map((note) => {
