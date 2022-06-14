@@ -6,6 +6,7 @@ import EditNote from "./EditNote";
 import Markdown from "./Markdown";
 import { useState, useRef, useEffect } from "react";
 import MoreTools from "./MoreTools";
+import ErrorBoundary from "../Error/ErrorBoundary";
 
 function Note({
   noteList,
@@ -33,7 +34,8 @@ function Note({
       const isMoreTools =
         e.target.alt === "More Tools" ||
         moreToolsRef.current.contains(e.target);
-      if (!isMoreTools) {
+
+      if (e.target.className === "delete-btn" || !isMoreTools) {
         setIsMoreToolsVisible((prevVisible) => !prevVisible);
       }
     };
@@ -47,7 +49,13 @@ function Note({
     };
   }, [isMoreToolsVisible]);
 
-  console.log("Note", noteList);
+  // useEffect(() => {
+  //   console.log("NoteList from Note", noteList);
+  // }, [noteList]);
+
+  // useEffect(() => {
+  //   console.log("CurrentNote from Note", currentNote);
+  // }, [currentNote]);
 
   return (
     <section className="column-container">
@@ -74,14 +82,16 @@ function Note({
           className={noteList.length !== 0 ? "show-element" : ""}
         />
         {isMoreToolsVisible && (
-          <MoreTools
-            ref={moreToolsRef}
-            currentNote={currentNote}
-            noteList={noteList}
-            pinNote={pinNote}
-            handleShouldUseMarkdown={handleShouldUseMarkdown}
-            handleDelete={handleDelete}
-          />
+          <ErrorBoundary>
+            <MoreTools
+              ref={moreToolsRef}
+              currentNote={currentNote}
+              noteList={noteList}
+              pinNote={pinNote}
+              handleShouldUseMarkdown={handleShouldUseMarkdown}
+              handleDelete={handleDelete}
+            />
+          </ErrorBoundary>
         )}
       </header>
       {isMarkDownVisible && currentNote.shouldUseMarkdown ? (

@@ -8,15 +8,19 @@ import "../css/style.css";
 
 function Container() {
   const [noteList, setNoteList] = useState(() => {
-    const savedData = localStorage.getItem("noteList");
-    const initialNoteList = JSON.parse(savedData);
+    // const savedData = localStorage.getItem("noteList");
+    // const initialNoteList = JSON.parse(savedData);
 
-    return initialNoteList || [];
+    // return [] || initialNoteList;
+    return [];
   });
+
   const [currentNote, setCurrentNote] = useState(() => {
-    const initialValue = noteList[0];
-    return initialValue || {};
+    // const initialValue = noteList[0];
+    // return initialValue || {};
+    return {};
   });
+
   const [shouldUpdateNoteList, setShouldUpdateNoteList] = useState(false);
 
   const addNewNote = () => {
@@ -30,6 +34,7 @@ function Container() {
     };
 
     setNoteList((prevNoteList) => [newNote, ...prevNoteList]);
+
     setShouldUpdateNoteList(true);
   };
 
@@ -47,7 +52,6 @@ function Container() {
 
   const pinNote = (e, ID) => {
     e.stopPropagation();
-
     const newList = noteList.map((note) => {
       return note.id === ID
         ? {
@@ -56,16 +60,13 @@ function Container() {
           }
         : note;
     });
-
     const [editedNote] = newList.filter((note) => note.id === ID);
     const noteListWithoutPin = newList.filter(
       (note) => !note.isPinned && note.id !== ID
     );
-
     const pinnedNotes = newList.filter(
       (note) => note.isPinned && note.id !== ID
     );
-
     if (editedNote.isPinned) {
       setNoteList([editedNote, ...pinnedNotes, ...noteListWithoutPin]);
     } else {
@@ -75,11 +76,9 @@ function Container() {
 
   const editCurrentNote = (e) => {
     setShouldUpdateNoteList(true);
-
     const allLinesFromInput = e.target.value.split("\n");
     const title = allLinesFromInput[0];
     const subtitle = allLinesFromInput[1];
-
     setCurrentNote((prevCurrentNote) => ({
       ...prevCurrentNote,
       title: title === undefined || title === "" ? "New Note" : title,
@@ -92,17 +91,15 @@ function Container() {
     const newNoteList = noteList.filter((note) => note.id !== id);
     const indexCurrent = noteList.indexOf(currentNote);
 
-    console.log(newNoteList);
+    // console.log(newNoteList, "newNoteList");
+    // console.log(indexCurrent, "IndexCurrentNote");
+
+    setNoteList(newNoteList);
 
     if (newNoteList.length === 0) {
-      setNoteList([]);
       setCurrentNote({});
-    } else {
-      setNoteList(newNoteList);
-    }
-
-    if (indexCurrent === noteList.length - 1) {
-      setCurrentNote(noteList[indexCurrent - 1]);
+    } else if (indexCurrent === newNoteList.length) {
+      setCurrentNote(newNoteList[newNoteList.length - 1]);
     } else {
       setCurrentNote(noteList[indexCurrent + 1]);
     }
@@ -119,9 +116,7 @@ function Container() {
 
   useEffect(() => {
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
-
     localStorage.setItem("noteList", JSON.stringify(noteList));
-    console.log("Container", noteList);
     setShouldUpdateNoteList(false);
   }, [noteList]);
 
@@ -130,16 +125,21 @@ function Container() {
       const newNotes = noteList.filter((note) =>
         note.id !== currentNote.id ? note : null
       );
-
       const pinnedNotes = newNotes.filter((note) => note.isPinned);
       const withoutPinned = newNotes.filter((note) => !note.isPinned);
       withoutPinned.unshift(currentNote);
-
       setNoteList([...pinnedNotes, ...withoutPinned]);
-
       setShouldUpdateNoteList(false);
     }
   }, [currentNote]);
+
+  // useEffect(() => {
+  //   console.log("NoteList from Container", noteList);
+  // }, [noteList]);
+
+  // useEffect(() => {
+  //   console.log("CurrentNote from Container", currentNote);
+  // }, [currentNote]);
 
   return (
     <>

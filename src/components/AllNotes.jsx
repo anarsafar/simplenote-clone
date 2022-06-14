@@ -44,7 +44,7 @@ function AllNotes({
       </button>
     </div>
   );
-  console.log("All Notes", noteList);
+
   return (
     <section className="column-container">
       <header className="all-notes__header">
