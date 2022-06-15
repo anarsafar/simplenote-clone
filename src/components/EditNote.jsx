@@ -1,11 +1,15 @@
 import { useEffect, useRef } from "react";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 function EditNote({ currentNote, editCurrentNote }) {
   const noteRef = useRef();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
-    noteRef.current.focus();
-  }, [currentNote]);
+    if (width > 750) {
+      noteRef.current.focus();
+    }
+  }, [currentNote, width]);
 
   return (
     <textarea

@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState, useRef } from "react";
 import Note from "./Note";
 import AllNotes from "./AllNotes";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 import "../css/style.css";
 
 function Container() {
@@ -19,6 +21,8 @@ function Container() {
   });
 
   const [shouldUpdateNoteList, setShouldUpdateNoteList] = useState(false);
+  const [displayMobile, setDisplayMobile] = useState(true);
+
   const allNotesRef = useRef();
   const notesRef = useRef();
 
@@ -138,29 +142,78 @@ function Container() {
     }
   }, [currentNote]);
 
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (width < 750) {
+      setDisplayMobile(true);
+    } else {
+      setDisplayMobile(false);
+    }
+  }, [width]);
+
   return (
     <>
       <div className="grid-container">
-        <AllNotes
-          noteList={noteList}
-          addNewNote={addNewNote}
-          getCurrentNote={getCurrentNote}
-          currentNote={currentNote}
-          pinNote={pinNote}
-          ref={allNotesRef}
-        />
-        <Note
-          noteList={noteList}
-          currentNote={currentNote}
-          editCurrentNote={editCurrentNote}
-          pinNote={pinNote}
-          handleShouldUseMarkdown={handleShouldUseMarkdown}
-          handleDelete={handleDelete}
-          handleTodo={handleTodo}
-          handleToggle={handleToggle}
-          addNewNote={addNewNote}
-          ref={notesRef}
-        />
+        {displayMobile ? (
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <AllNotes
+                    noteList={noteList}
+                    addNewNote={addNewNote}
+                    getCurrentNote={getCurrentNote}
+                    currentNote={currentNote}
+                    pinNote={pinNote}
+                    ref={allNotesRef}
+                  />
+                }
+              />
+              <Route
+                path="note"
+                element={
+                  <Note
+                    noteList={noteList}
+                    currentNote={currentNote}
+                    editCurrentNote={editCurrentNote}
+                    pinNote={pinNote}
+                    handleShouldUseMarkdown={handleShouldUseMarkdown}
+                    handleDelete={handleDelete}
+                    handleTodo={handleTodo}
+                    handleToggle={handleToggle}
+                    addNewNote={addNewNote}
+                    ref={notesRef}
+                  />
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        ) : (
+          <BrowserRouter>
+            <AllNotes
+              noteList={noteList}
+              addNewNote={addNewNote}
+              getCurrentNote={getCurrentNote}
+              currentNote={currentNote}
+              pinNote={pinNote}
+              ref={allNotesRef}
+            />
+            <Note
+              noteList={noteList}
+              currentNote={currentNote}
+              editCurrentNote={editCurrentNote}
+              pinNote={pinNote}
+              handleShouldUseMarkdown={handleShouldUseMarkdown}
+              handleDelete={handleDelete}
+              handleTodo={handleTodo}
+              handleToggle={handleToggle}
+              addNewNote={addNewNote}
+              ref={notesRef}
+            />
+          </BrowserRouter>
+        )}
       </div>
     </>
   );

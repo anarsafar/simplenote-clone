@@ -10,6 +10,9 @@ import EditNote from "./EditNote";
 import Markdown from "./Markdown";
 import MoreTools from "./MoreTools";
 import ErrorBoundary from "../Error/ErrorBoundary";
+import useWindowDimensions from "../hooks/useWindowDimensions";
+
+import { Link } from "react-router-dom";
 
 import { useState, useRef, useEffect } from "react";
 import { forwardRef } from "react";
@@ -33,6 +36,8 @@ const Note = forwardRef(
     const [isMarkDownVisible, setIsMarkDownVisible] = useState(false);
 
     const moreToolsRef = useRef();
+    const linkRef = useRef();
+    const { width } = useWindowDimensions();
 
     const handleMarkDownVisibility = () => {
       setIsMarkDownVisible((prevIsVisible) => !prevIsVisible);
@@ -41,6 +46,14 @@ const Note = forwardRef(
     const handleMoreToolsVisibility = () => {
       setIsMoreToolsVisible((prevVisible) => !prevVisible);
     };
+
+    useEffect(() => {
+      if (width < 750) {
+        linkRef.current.classList.add("display-link");
+      } else {
+        linkRef.current.classList.remove("display-link");
+      }
+    }, [width]);
 
     useEffect(() => {
       const checkIsOutside = (e) => {
@@ -71,6 +84,21 @@ const Note = forwardRef(
             className="show-element"
             onClick={addNewNote}
           />
+
+          <Link to="/" className="go-back-link" ref={linkRef}>
+            <svg
+              class="icon-back"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <rect x="0" fill="none" width="24" height="24"></rect>
+              <path
+                fill="#646970"
+                d="M21 11H6.83l5.72-5.72 -1.42-1.41L3 12l8.13 8.13 1.42-1.41L6.83 13H21V11z"
+              ></path>
+            </svg>
+          </Link>
+
           <img
             src={toggleListIcon}
             alt="Toggle List"

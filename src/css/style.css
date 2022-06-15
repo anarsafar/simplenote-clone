@@ -144,6 +144,11 @@ input::placeholder {
   height: 100%;
 }
 
+.note-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .note-element {
   padding: 1rem;
   border-bottom: thin solid var(--secondary-accent-color);
@@ -201,7 +206,7 @@ input::placeholder {
   display: flex;
   position: relative;
   justify-content: space-between;
-  padding: 14px;
+  padding: 14.8px;
 }
 
 .note-header img {
@@ -209,11 +214,24 @@ input::placeholder {
   cursor: pointer;
   visibility: hidden;
   user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
 }
 
 .note-header img:first-child {
   margin-right: 1rem;
   display: none;
+}
+
+.note-header a {
+  display: none;
+  width: 24px;
+}
+
+.display-link {
+  display: block !important;
 }
 
 .markdown {
@@ -245,18 +263,52 @@ input::placeholder {
   resize: none;
 }
 
-/* ======================= Custom Scrollbar ======================= */
-::-webkit-scrollbar {
-  width: 4px;
+/* ======================= Custom Scrollbar All Notes ======================= */
+.note-list::-webkit-scrollbar,
+.markdown-container::-webkit-scrollbar {
+  width: 15.5px;
 }
 
-::-webkit-scrollbar-thumb {
+.note-list::-webkit-scrollbar-track,
+.markdown-container::-webkit-scrollbar-track {
+  margin: 4px;
+}
+
+.note-list::-webkit-scrollbar-thumb,
+.markdown-container::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 7px;
+  border-left: 4px solid white;
+  border-right: 4px solid white;
+}
+
+.note-list::-webkit-scrollbar-thumb:hover,
+.markdown-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--tertiary-accent-color);
+}
+
+/* ================ Custom Scrollbar Note Element ===================== */
+.note-body::-webkit-scrollbar {
+  width: 0px;
+  transition: width 2s;
+}
+
+.note-body:hover.note-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.note-body::-webkit-scrollbar-track {
+  margin: 2.5rem;
+}
+
+.note-body::-webkit-scrollbar-thumb {
+  background: var(--secondary-accent-color);
+  border-radius: 10px;
+  border: 3px solid var(--tertiary-accent-color);
+}
+
+.note-body::-webkit-scrollbar-thumb:hover {
   background: var(--tertiary-accent-color);
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary-color);
 }
 
 /* ====================== More Tools Component Styles ================= */
@@ -289,8 +341,8 @@ input::placeholder {
 }
 
 /* ========================== MARKDOWN COMPONENT ================== */
-
 .markdown-container {
+  overflow: auto;
   height: calc(100% - 53px);
   width: 100%;
   padding: 1rem 2rem;
@@ -318,5 +370,13 @@ input::placeholder {
 @media screen and (max-width: 750px) {
   .all-notes-container {
     grid-column: 1 / -1;
+  }
+
+  .note-container {
+    width: 100vw;
+  }
+
+  .toggle {
+    display: none;
   }
 }
