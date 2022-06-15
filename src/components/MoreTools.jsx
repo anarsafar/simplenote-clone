@@ -1,18 +1,10 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 
 const MoreTools = forwardRef(
   (
     { currentNote, noteList, pinNote, handleShouldUseMarkdown, handleDelete },
     ref
   ) => {
-    useEffect(() => {
-      console.log("NoteList from MoreTools", noteList);
-    }, [noteList]);
-
-    useEffect(() => {
-      console.log("CurrentNote from MoreTools", currentNote);
-    }, [currentNote]);
-
     let checked = noteList.find((note) => note.id === currentNote.id);
     if (noteList.length > 0) {
       checked = checked.isPinned;

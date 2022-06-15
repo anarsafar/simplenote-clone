@@ -1,27 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Split from "react-split";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Note from "./Note";
 import AllNotes from "./AllNotes";
 import "../css/style.css";
 
 function Container() {
   const [noteList, setNoteList] = useState(() => {
-    // const savedData = localStorage.getItem("noteList");
-    // const initialNoteList = JSON.parse(savedData);
+    const savedData = localStorage.getItem("noteList");
+    const initialNoteList = JSON.parse(savedData);
 
-    // return [] || initialNoteList;
-    return [];
+    return initialNoteList || [];
   });
 
   const [currentNote, setCurrentNote] = useState(() => {
-    // const initialValue = noteList[0];
-    // return initialValue || {};
-    return {};
+    const initialValue = noteList[0];
+    return initialValue || {};
   });
 
   const [shouldUpdateNoteList, setShouldUpdateNoteList] = useState(false);
+  const allNotesRef = useRef();
+  const notesRef = useRef();
 
   const addNewNote = () => {
     const newNote = {
@@ -48,6 +47,10 @@ function Container() {
 
   const getCurrentNote = (id) => {
     setCurrentNote(noteList.find((note) => note.id === id && note));
+  };
+
+  const handleTodo = () => {
+    console.log("todo");
   };
 
   const pinNote = (e, ID) => {
@@ -91,9 +94,6 @@ function Container() {
     const newNoteList = noteList.filter((note) => note.id !== id);
     const indexCurrent = noteList.indexOf(currentNote);
 
-    // console.log(newNoteList, "newNoteList");
-    // console.log(indexCurrent, "IndexCurrentNote");
-
     setNoteList(newNoteList);
 
     if (newNoteList.length === 0) {
@@ -103,6 +103,11 @@ function Container() {
     } else {
       setCurrentNote(noteList[indexCurrent + 1]);
     }
+  };
+
+  const handleToggle = () => {
+    allNotesRef.current.classList.toggle("disable-all-notes");
+    notesRef.current.classList.toggle("toggle-note-container");
   };
 
   useEffect(() => {
@@ -133,29 +138,16 @@ function Container() {
     }
   }, [currentNote]);
 
-  // useEffect(() => {
-  //   console.log("NoteList from Container", noteList);
-  // }, [noteList]);
-
-  // useEffect(() => {
-  //   console.log("CurrentNote from Container", currentNote);
-  // }, [currentNote]);
-
   return (
     <>
-      <Split
-        direction="horizontal"
-        sizes={[30, 70]}
-        minSize={280}
-        cursor="col-resize"
-        className="split"
-      >
+      <div className="grid-container">
         <AllNotes
           noteList={noteList}
           addNewNote={addNewNote}
           getCurrentNote={getCurrentNote}
           currentNote={currentNote}
           pinNote={pinNote}
+          ref={allNotesRef}
         />
         <Note
           noteList={noteList}
@@ -164,8 +156,12 @@ function Container() {
           pinNote={pinNote}
           handleShouldUseMarkdown={handleShouldUseMarkdown}
           handleDelete={handleDelete}
+          handleTodo={handleTodo}
+          handleToggle={handleToggle}
+          addNewNote={addNewNote}
+          ref={notesRef}
         />
-      </Split>
+      </div>
     </>
   );
 }

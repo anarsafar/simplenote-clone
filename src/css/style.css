@@ -49,21 +49,9 @@ body {
   box-sizing: border-box;
 }
 
-/* ====================== Split.js Classes ===========================*/
-.split {
-  display: flex;
-  flex-direction: row;
-}
-
-.gutter {
-  background-color: #eee;
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-
-.gutter.gutter-horizontal {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
-  cursor: col-resize;
+.grid-container {
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
 }
 
 /* ==================== Components Mutual Classes ====================== */
@@ -76,6 +64,11 @@ header {
 }
 
 /* ==================== Note List Component Styles ===================== */
+.all-notes-container {
+  border-right: thin solid var(--secondary-accent-color);
+  grid-column: 1 / 2;
+}
+
 .all-notes__header {
   display: flex;
   justify-content: space-between;
@@ -84,9 +77,10 @@ header {
 
 .all-notes__header p {
   font-size: 16px;
+  font-weight: 500;
 }
 
-.create-note-btn {
+.all-notes__header img {
   width: 24px;
   cursor: pointer;
 }
@@ -146,7 +140,7 @@ input::placeholder {
 }
 
 .note-list {
-  overflow: scroll;
+  overflow: auto;
   height: 100%;
 }
 
@@ -165,6 +159,7 @@ input::placeholder {
 
 .note-title {
   font-size: 1rem;
+  font-weight: 500;
   margin-bottom: 4px !important;
 }
 
@@ -197,6 +192,11 @@ input::placeholder {
 }
 
 /* ====================== Note Component styles ==================== */
+
+.note-container {
+  grid-column: 2 / -1;
+}
+
 .note-header {
   display: flex;
   position: relative;
@@ -211,9 +211,21 @@ input::placeholder {
   user-select: none;
 }
 
-.markdown {
-  margin-left: auto;
+.note-header img:first-child {
   margin-right: 1rem;
+  display: none;
+}
+
+.markdown {
+  margin-right: 1.3rem;
+}
+
+.toggle {
+  margin-right: auto;
+}
+
+.info {
+  margin-inline: 1.3rem;
 }
 
 .show-element {
@@ -285,4 +297,26 @@ input::placeholder {
   font-size: 1rem;
   font-family: inherit;
   color: var(--primary-color);
+}
+
+/* ==================== TOGGLE ALL NOTES ======================== */
+.all-notes-container.disable-all-notes {
+  position: absolute;
+  transition: all 1s ease-in;
+  transform: translate(-10000%);
+}
+
+.note-container.toggle-note-container {
+  grid-column: 1 / -1;
+}
+
+.note-container.toggle-note-container > .note-header > img {
+  display: block;
+}
+
+/* Break points */
+@media screen and (max-width: 750px) {
+  .all-notes-container {
+    grid-column: 1 / -1;
+  }
 }
