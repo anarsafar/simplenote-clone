@@ -25,6 +25,7 @@ function Container() {
 
   const allNotesRef = useRef();
   const notesRef = useRef();
+  const verticalLineRef = useRef();
 
   const addNewNote = () => {
     const newNote = {
@@ -59,6 +60,8 @@ function Container() {
 
   const pinNote = (e, ID) => {
     e.stopPropagation();
+    e.preventDefault();
+
     const newList = noteList.map((note) => {
       return note.id === ID
         ? {
@@ -67,18 +70,23 @@ function Container() {
           }
         : note;
     });
+
     const [editedNote] = newList.filter((note) => note.id === ID);
+
     const noteListWithoutPin = newList.filter(
       (note) => !note.isPinned && note.id !== ID
     );
+
     const pinnedNotes = newList.filter(
       (note) => note.isPinned && note.id !== ID
     );
+
     if (editedNote.isPinned) {
       setNoteList([editedNote, ...pinnedNotes, ...noteListWithoutPin]);
     } else {
       setNoteList([...pinnedNotes, editedNote, ...noteListWithoutPin]);
     }
+    setShouldUpdateNoteList(true) //if something brakes first look here :)
   };
 
   const editCurrentNote = (e) => {
@@ -112,6 +120,7 @@ function Container() {
   const handleToggle = () => {
     allNotesRef.current.classList.toggle("disable-all-notes");
     notesRef.current.classList.toggle("toggle-note-container");
+    verticalLineRef.current.classList.toggle("display-vertical-line")
   };
 
   useEffect(() => {
@@ -211,6 +220,7 @@ function Container() {
               handleToggle={handleToggle}
               addNewNote={addNewNote}
               ref={notesRef}
+              verticalLineRef={verticalLineRef}
             />
           </BrowserRouter>
         )}

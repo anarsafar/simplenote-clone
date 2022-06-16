@@ -158,6 +158,13 @@ input::placeholder {
   align-items: center;
 }
 
+.note-data{
+  white-space: nowrap;
+  text-overflow: ellipsis ellipsis;
+  overflow: hidden;
+  max-width: 300px;
+}
+
 .note-data p {
   margin: 0;
 }
@@ -177,6 +184,18 @@ input::placeholder {
 .pin-active {
   user-select: all;
   visibility: visible;
+}
+
+.path {
+  fill: var(--foreground-color);
+}
+
+.active-focused {
+  fill: var(--primary-color);
+}
+
+.active-path {
+  fill: var(--accent-color);
 }
 
 .note-element:hover {
@@ -207,6 +226,20 @@ input::placeholder {
   position: relative;
   justify-content: space-between;
   padding: 14.8px;
+}
+
+.vertical-line {
+  width: 1px;
+  height: 53px;
+  background: var(--primary-color);
+  position: absolute;
+  top: 0;
+  left: 2.9rem;
+  display: none;
+}
+
+.display-vertical-line {
+  display: block;
 }
 
 .note-header img {
@@ -261,6 +294,11 @@ input::placeholder {
   outline: none;
   border: none;
   resize: none;
+}
+
+.note-body::selection {
+  background: var(--highlight-color);
+  border-radius: 10px;
 }
 
 /* ======================= Custom Scrollbar All Notes ======================= */

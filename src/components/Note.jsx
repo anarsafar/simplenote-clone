@@ -14,8 +14,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 
 import { Link } from "react-router-dom";
 
-import { useState, useRef, useEffect } from "react";
-import { forwardRef } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
 
 const Note = forwardRef(
   (
@@ -29,6 +28,7 @@ const Note = forwardRef(
       handleTodo,
       handleToggle,
       addNewNote,
+      verticalLineRef
     },
     ref
   ) => {
@@ -84,10 +84,10 @@ const Note = forwardRef(
             className="show-element"
             onClick={addNewNote}
           />
-
+          <div className="vertical-line" ref={verticalLineRef}></div>
           <Link to="/" className="go-back-link" ref={linkRef}>
             <svg
-              class="icon-back"
+              className="icon-back"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
