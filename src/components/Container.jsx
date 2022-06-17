@@ -164,7 +164,6 @@ function Container() {
   }, [shouldUpdateNoteList]);
 
   useEffect(() => {
-    console.log(noteList);
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
     localStorage.setItem("noteList", JSON.stringify(noteList));
     setShouldUpdateNoteList(false);
