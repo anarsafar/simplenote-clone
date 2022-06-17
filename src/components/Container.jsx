@@ -72,9 +72,7 @@ function Container() {
     setCurrentNote(noteList.find((note) => note.id === id && note));
   };
 
-  const handleTodo = () => {
-    console.log("todo");
-  };
+  const handleTodo = () => {};
 
   const pinNote = (e, ID) => {
     e.stopPropagation();
@@ -104,7 +102,7 @@ function Container() {
     } else {
       setNoteList([...pinnedNotes, editedNote, ...noteListWithoutPin]);
     }
-    setShouldUpdateNoteList(true); //if something brakes first look here :)
+    setShouldUpdateNoteList(true);
   };
 
   const editCurrentNote = (e) => {

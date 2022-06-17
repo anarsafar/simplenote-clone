@@ -2,7 +2,7 @@ import toggleListIcon from "../images/toggle-icon.svg";
 import moreToolsIcon from "../images/more-tools.svg";
 import openMarkdown from "../images/open-mark.svg";
 import closeMarkDown from "../images/close-mark.svg";
-import checkboxIcon from "../images/checkbox.svg";
+// import checkboxIcon from "../images/checkbox.svg";
 import infoIcon from "../images/info.svg";
 import createNote from "../images/new-note.svg";
 
@@ -116,12 +116,12 @@ const Note = forwardRef(
               }
             />
           )}
-          <img
+          {/* <img
             src={checkboxIcon}
             alt="Checkbox Icon"
             onClick={handleTodo}
             className={noteList.length !== 0 ? "show-element" : ""}
-          />
+          /> */}
           <img
             src={infoIcon}
             alt="Info Icon"

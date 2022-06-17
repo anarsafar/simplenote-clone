@@ -225,7 +225,7 @@ input::placeholder {
   transform: translate(-50%, -50%);
 }
 
-.main-logo path{
+.main-logo path {
   fill: var(--secondary-color);
 }
 
