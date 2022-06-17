@@ -6,6 +6,7 @@ import Note from "./Note";
 import AllNotes from "./AllNotes";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import "../css/style.css";
+import NoteInfo from "./NoteInfo";
 
 function Container() {
   const [noteList, setNoteList] = useState(() => {
@@ -22,17 +23,34 @@ function Container() {
 
   const [shouldUpdateNoteList, setShouldUpdateNoteList] = useState(false);
   const [displayMobile, setDisplayMobile] = useState(true);
+  const [displayInfo, setDisplayInfo] = useState(false);
 
   const allNotesRef = useRef();
   const notesRef = useRef();
   const verticalLineRef = useRef();
 
   const addNewNote = () => {
+    const date = new Date();
+
     const newNote = {
       id: uuidv4(),
       title: "New Note",
       subtitle: "",
       data: "",
+      created: {
+        month: date.getMonth(),
+        dayOfMonth: date.getDate(),
+        year: date.getFullYear(),
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+      },
+      modified: {
+        month: date.getMonth(),
+        dayOfMonth: date.getDate(),
+        year: date.getFullYear(),
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+      },
       isPinned: false,
       shouldUseMarkdown: false,
     };
@@ -86,7 +104,7 @@ function Container() {
     } else {
       setNoteList([...pinnedNotes, editedNote, ...noteListWithoutPin]);
     }
-    setShouldUpdateNoteList(true) //if something brakes first look here :)
+    setShouldUpdateNoteList(true); //if something brakes first look here :)
   };
 
   const editCurrentNote = (e) => {
@@ -94,11 +112,20 @@ function Container() {
     const allLinesFromInput = e.target.value.split("\n");
     const title = allLinesFromInput[0];
     const subtitle = allLinesFromInput[1];
+    const date = new Date();
+
     setCurrentNote((prevCurrentNote) => ({
       ...prevCurrentNote,
       title: title === undefined || title === "" ? "New Note" : title,
       subtitle: subtitle === undefined ? "" : subtitle,
       data: e.target.value,
+      modified: {
+        month: date.getMonth(),
+        dayOfMonth: date.getDate(),
+        year: date.getFullYear(),
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+      },
     }));
   };
 
@@ -120,7 +147,11 @@ function Container() {
   const handleToggle = () => {
     allNotesRef.current.classList.toggle("disable-all-notes");
     notesRef.current.classList.toggle("toggle-note-container");
-    verticalLineRef.current.classList.toggle("display-vertical-line")
+    verticalLineRef.current.classList.toggle("display-vertical-line");
+  };
+
+  const handleInfo = () => {
+    setDisplayInfo((prev) => !prev);
   };
 
   useEffect(() => {
@@ -133,6 +164,7 @@ function Container() {
   }, [shouldUpdateNoteList]);
 
   useEffect(() => {
+    console.log(noteList);
     noteList.length > 0 && shouldUpdateNoteList && setCurrentNote(noteList[0]);
     localStorage.setItem("noteList", JSON.stringify(noteList));
     setShouldUpdateNoteList(false);
@@ -194,6 +226,7 @@ function Container() {
                     handleToggle={handleToggle}
                     addNewNote={addNewNote}
                     ref={notesRef}
+                    handleInfo={handleInfo}
                   />
                 }
               />
@@ -221,10 +254,14 @@ function Container() {
               addNewNote={addNewNote}
               ref={notesRef}
               verticalLineRef={verticalLineRef}
+              handleInfo={handleInfo}
             />
           </BrowserRouter>
         )}
       </div>
+      {displayInfo && (
+        <NoteInfo handleInfo={handleInfo} currentNote={currentNote} />
+      )}
     </>
   );
 }

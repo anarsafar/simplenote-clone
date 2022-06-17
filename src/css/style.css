@@ -52,6 +52,7 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: 0.4fr 1fr;
+  z-index: 1;
 }
 
 /* ==================== Components Mutual Classes ====================== */
@@ -158,7 +159,7 @@ input::placeholder {
   align-items: center;
 }
 
-.note-data{
+.note-data {
   white-space: nowrap;
   text-overflow: ellipsis ellipsis;
   overflow: hidden;
@@ -417,4 +418,61 @@ input::placeholder {
   .toggle {
     display: none;
   }
+}
+
+/* ========================== Note Info Styles =============================== */
+
+.note-info__container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: grid;
+  place-items: center;
+}
+
+.note-info {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 350px;
+  z-index: 3;
+}
+
+.note-info__header,
+.note-info__body > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-info__header {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.border-bottom {
+  width: 350px;
+  height: 1px;
+  border-bottom: thin solid var(--secondary-accent-color);
+  position: absolute;
+  top: 35px;
+  left: -1.1rem;
+}
+
+.note-info__header img {
+  width: 17px;
+  cursor: pointer;
+}
+
+.note-info__body > div {
+  margin-block: 10px;
+}
+
+.note-info__header h3 {
+  margin: 0;
+  font-weight: 500;
 }

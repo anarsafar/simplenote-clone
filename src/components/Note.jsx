@@ -28,7 +28,8 @@ const Note = forwardRef(
       handleTodo,
       handleToggle,
       addNewNote,
-      verticalLineRef
+      verticalLineRef,
+      handleInfo
     },
     ref
   ) => {
@@ -125,6 +126,7 @@ const Note = forwardRef(
             src={infoIcon}
             alt="Info Icon"
             className={noteList.length !== 0 ? "show-element info" : "info"}
+            onClick={handleInfo}
           />
           <img
             src={moreToolsIcon}
