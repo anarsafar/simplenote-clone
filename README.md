@@ -9,7 +9,7 @@
     <a href="https://github.com/ianarseferov/simplenote-clone/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="">View Demo</a>
+    <a href="https://simplenote-clone-anarseferov.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/ianarseferov/simplenote-clone/issues">Report Bug</a>
     ·
